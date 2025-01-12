@@ -20,7 +20,7 @@ export function Navbar() {
               <Link href="/emergency">Emergency Contacts</Link>
             </Button>
             <Button variant="ghost" asChild>
-              <Link href="/blog">Blog</Link>
+              <Link href="/catalogue">Catalogue</Link>
             </Button>
           </div>
         </div>
