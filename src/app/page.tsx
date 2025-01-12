@@ -189,7 +189,7 @@ export default function Home() {
             <Textarea
               placeholder="Describe your medical condition or symptoms you are feeling"
               className="min-h-[150px] mb-4"
-              maxLength={200}
+              maxLength={500}
               value={description}
               onChange={(e) => setDescription(e.target.value)}
             />
@@ -205,7 +205,7 @@ export default function Home() {
               <Mic className={isListening ? 'animate-pulse' : ''} />
             </Button>
             <div className="text-sm text-muted-foreground text-right">
-              {description.length}/200 characters
+              {description.length}/500 characters
             </div>
           </div>
 
