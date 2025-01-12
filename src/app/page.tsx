@@ -193,6 +193,9 @@ export default function Home() {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
             />
+            <p className="text-xs my-5 w-[65%] md:w-full md:text-sm leading-3 text-gray-400">
+              DISCLAIMER: Not a replacement for medical professionals.
+            </p>
             <Button
               size="icon"
               variant={isListening ? 'destructive' : 'outline'}
