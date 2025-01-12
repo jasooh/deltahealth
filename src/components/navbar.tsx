@@ -12,7 +12,7 @@ export function Navbar() {
         <div className="flex h-16 items-center justify-between">
           <Link href="/" className="flex items-center space-x-2">
             <Image src="/logo.png" alt="Logo" width={40} height={40} />
-            <span className="font-semibold text-xl">DeltaHealth</span>
+            <span className="font-semibold text-xl hidden md:block">DELTAHEALTH</span>
           </Link>
 
           <div className="flex items-center space-x-4">
