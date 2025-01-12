@@ -10,7 +10,7 @@ import { Toggle } from '@/components/ui/toggle'
 import EmergencyAnalyzer from '@/components/EmergencyAnalyzer'
 import { AnalysisResults } from '@/components/analysis-results'
 import { SavedResults } from '@/components/SavedResults'
-
+import axios from 'axios'
 const symptoms = [
   'Fever',
   'Headache',
@@ -88,27 +88,47 @@ export default function Home() {
       ', '
     )}. Description: ${description}`
     console.log(prompt) // For testing the format
-
     try {
-      const response = await fetch('/api/cohere', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ prompt }),
-      })
+      const response = await axios.post(
+        'api/cohere',
+        { prompt },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      )
 
-      if (!response.ok) {
+      if (response.status !== 200) {
         throw new Error('Failed to fetch')
       }
 
-      const data = await response.json()
-      setAnalysisResult(data)
+      setAnalysisResult(response.data)
     } catch (error) {
       console.error('Error:', error)
     } finally {
       setIsLoading(false)
     }
+    // try {
+    //   const response = await fetch('/api/cohere', {
+    //     method: 'POST',
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //     },
+    //     body: JSON.stringify({ prompt }),
+    //   })
+
+    //   if (!response.ok) {
+    //     throw new Error('Failed to fetch')
+    //   }
+
+    //   const data = await response.json()
+    //   setAnalysisResult(data)
+    // } catch (error) {
+    //   console.error('Error:', error)
+    // } finally {
+    //   setIsLoading(false)
+    // }
 
     // const mockResponse = {
     //   probable_medical_conditions: ['Broken arm', 'Severe Pain'],
