@@ -1,15 +1,22 @@
 'use client'
 
-import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { Textarea } from '@/components/ui/textarea'
 import { Mic } from 'lucide-react'
 import { useState } from 'react'
 import { Toggle } from '@/components/ui/toggle'
-import EmergencyAnalyzer from '@/components/EmergencyAnalyzer'
 import { AnalysisResults } from '@/components/analysis-results'
 import { SavedResults } from '@/components/SavedResults'
+import { motion } from 'motion/react'
+
+const spring_transition = {
+  type: "spring",
+  stiffness: 200, // Controls how tight the spring is
+  damping: 40,    // Controls the resistance of the spring
+  bounce: 0.5,    // Controls the amount of bounce (0 to 2 is common)
+  duration: 0.8,  // Optional, spring usually ignores this unless combined
+}
 
 const symptoms = [
   'Fever',
@@ -146,63 +153,65 @@ export default function Home() {
           Emergency Situation Analyzer
         </h1>
         {/* <EmergencyAnalyzer /> */}
+        <motion.div initial={{y: "100%", opacity: 0, filter: "blur(10px)"}} transition={spring_transition} animate={{y: 0, opacity: 1, filter: "blur(0px)"}}>
+          <Card className="p-6">
+            <h2 className="text-2xl font-semibold mb-6">
+              What symptoms are you dealing with?
+            </h2>
 
-        <Card className="p-6">
-          <h2 className="text-2xl font-semibold mb-6">
-            What symptoms are you dealing with?
-          </h2>
-
-          <div className="flex flex-wrap gap-2 mb-6">
-            {symptoms.map((symptom) => (
-              <Toggle
-                key={symptom}
-                pressed={selectedSymptoms.includes(symptom)}
-                onPressedChange={() => toggleSymptom(symptom)}
-                variant="outline"
-              >
-                {symptom}
-              </Toggle>
-            ))}
-          </div>
-
-          <div className="relative">
-            <Textarea
-              placeholder="Describe your medical condition or symptoms you are feeling"
-              className="min-h-[150px] mb-4"
-              maxLength={200}
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-            />
-            <Button
-              size="icon"
-              variant={isListening ? 'destructive' : 'outline'}
-              className="absolute bottom-8 right-2"
-              onClick={handleVoiceInput}
-            >
-              <Mic className={isListening ? 'animate-pulse' : ''} />
-            </Button>
-            <div className="text-sm text-muted-foreground text-right">
-              {description.length}/200 characters
+            <div className="flex flex-wrap gap-2 mb-6">
+              {symptoms.map((symptom) => (
+                  <Toggle
+                      key={symptom}
+                      pressed={selectedSymptoms.includes(symptom)}
+                      onPressedChange={() => toggleSymptom(symptom)}
+                      variant="outline"
+                  >
+                    {symptom}
+                  </Toggle>
+              ))}
             </div>
-          </div>
 
-          <Button
-            className="w-full mt-4 bg-green-600 hover:bg-green-700"
-            size="lg"
-            onClick={handleSubmit}
-            disabled={
-              (selectedSymptoms.length === 0 && !description.trim()) ||
-              isLoading
-            }
-          >
-            {isLoading ? 'Analyzing...' : 'Analyze'}
-          </Button>
+            <div className="relative">
+              <Textarea
+                  placeholder="Describe your medical condition or symptoms you are feeling"
+                  className="min-h-[150px] mb-4"
+                  maxLength={200}
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+              />
+              <Button
+                  size="icon"
+                  variant={isListening ? 'destructive' : 'outline'}
+                  className="absolute bottom-8 right-2"
+                  onClick={handleVoiceInput}
+              >
+                <Mic className={isListening ? 'animate-pulse' : ''}/>
+              </Button>
+              <div className="text-sm text-muted-foreground text-right">
+                {description.length}/200 characters
+              </div>
+            </div>
+
+            <Button
+                className="w-full mt-4 bg-green-600 hover:bg-green-700"
+                size="lg"
+                onClick={handleSubmit}
+                disabled={
+                    (selectedSymptoms.length === 0 && !description.trim()) ||
+                    isLoading
+                }
+            >
+              {isLoading ? 'Analyzing...' : 'Analyze'}
+            </Button>
         </Card>
-        {analysisResult && (
-          <AnalysisResults data={analysisResult} showDialog={true} />
-        )}
-        <SavedResults />
-      </div>
-    </main>
+        </motion.div>
+
+      {analysisResult && (
+          <AnalysisResults data={analysisResult} showDialog={true}/>
+      )}
+      <SavedResults/>
+    </div>
+</main>
   )
 }

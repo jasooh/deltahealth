@@ -3,8 +3,9 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Activity, Menu, X } from 'lucide-react'
+import { Menu, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import Image from 'next/image'
 
 const navItems = [
   // { name: 'Home', href: '/' },
@@ -22,8 +23,8 @@ export function Navbar() {
         <div className="flex justify-between h-16">
           <div className="flex-shrink-0 flex items-center">
             <Link href="/" className="flex items-center space-x-2">
-              <Activity className="h-6 w-6 text-primary" />
-              <span className="font-semibold text-xl">DeltaHealth</span>
+              <Image width={100} height={100} src="./logo.png" alt="logo" className="h-6 w-6 text-primary" />
+              <span className="font-semibold text-xl">DELTAHEALTH</span>
             </Link>
           </div>
           <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
