@@ -26,7 +26,7 @@ let recognition: any = null
 export default function Home() {
   const [selectedSymptoms, setSelectedSymptoms] = useState<string[]>([])
   const [description, setDescription] = useState(
-    'Im having cold, cough and fever with a running nose.'
+    'I\'m having cold, cough and fever with a running nose.'
   )
   const [isListening, setIsListening] = useState(false)
   const [analysisResult, setAnalysisResult] = useState<any>(null)
