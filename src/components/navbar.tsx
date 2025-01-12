@@ -39,6 +39,7 @@ const navItems = [
   // { name: 'Home', href: '/' },
   { name: 'Help (Emergency Contacts)', href: '/help' },
   { name: 'Saved Results', href: '/saved' },
+  { name: 'Info Hub', href: '/info' },
 ]
 
 export function Navbar() {
