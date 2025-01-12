@@ -27,9 +27,7 @@ let recognition: any = null
 
 export default function Home() {
   const [selectedSymptoms, setSelectedSymptoms] = useState<string[]>([])
-  const [description, setDescription] = useState(
-    'Im having cold, cough and fever with a running nose.'
-  )
+  const [description, setDescription] = useState('')
   const [isListening, setIsListening] = useState(false)
   const [analysisResult, setAnalysisResult] = useState<any>(null)
   const [isLoading, setIsLoading] = useState(false)
@@ -188,7 +186,7 @@ export default function Home() {
           </div>
 
           <Button
-            className="w-full mt-4"
+            className="w-full mt-4 bg-green-600 hover:bg-green-700"
             size="lg"
             onClick={handleSubmit}
             disabled={
