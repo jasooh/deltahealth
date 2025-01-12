@@ -4,7 +4,7 @@ import {Button} from '@/components/ui/button'
 import {Card} from '@/components/ui/card'
 import {Textarea} from '@/components/ui/textarea'
 import {Mic} from 'lucide-react'
-import {useState} from 'react'
+import React, {useState} from 'react'
 import {Toggle} from '@/components/ui/toggle'
 import {AnalysisResults} from '@/components/analysis-results'
 import {motion} from 'motion/react'
@@ -150,7 +150,7 @@ export default function Home() {
     return (
         <main className="min-h-screen bg-gray-50">
             <div className="max-w-2xl mx-auto px-4 py-8">
-                <h1 className="text-xl text-center font-mono font-bold mb-8">
+                <h1 className="text-center text-2xl md:text-2xl font-bold text-primary mb-8 md:leading-3">Disease
                     Emergency Situation Analyzer
                 </h1>
                 {/* <EmergencyAnalyzer /> */}
@@ -182,7 +182,8 @@ export default function Home() {
                                 value={description}
                                 onChange={(e) => setDescription(e.target.value)}
                             />
-                            <p className="text-xs my-5 w-[65%] md:w-full md:text-sm leading-3 text-gray-400">DISCLAIMER: Not a replacement for medical
+                            <p className="text-xs my-5 w-[65%] md:w-full md:text-sm leading-3 text-gray-400">DISCLAIMER:
+                                Not a replacement for medical
                                 professionals.</p>
                             <Button
                                 size="icon"
@@ -216,8 +217,8 @@ export default function Home() {
                         animate={{y: 0, opacity: 1, filter: "blur(0px)"}}
                         transition={spring_transition}
                     >
-                    <AnalysisResults data={analysisResult}/>
-                </motion.div>}
+                        <AnalysisResults data={analysisResult}/>
+                    </motion.div>}
             </div>
         </main>
     )

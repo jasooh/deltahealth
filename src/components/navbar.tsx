@@ -17,13 +17,13 @@ export function Navbar() {
 
           <div className="flex items-center space-x-4">
             <Button variant="ghost" asChild>
+              <Link href="/analyzer">Analyzer</Link>
+            </Button>
+            <Button variant="ghost" asChild>
               <Link href="/emergency">Contacts</Link>
             </Button>
             <Button variant="ghost" asChild>
               <Link href="/catalogue">Catalogue</Link>
-            </Button>
-            <Button variant="ghost" asChild>
-              <Link href="/analyzer">Analyzer</Link>
             </Button>
           </div>
         </div>
