@@ -1,13 +1,11 @@
 'use client'
 
-import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { Textarea } from '@/components/ui/textarea'
 import { Mic } from 'lucide-react'
 import { useState } from 'react'
 import { Toggle } from '@/components/ui/toggle'
-import EmergencyAnalyzer from '@/components/EmergencyAnalyzer'
 import { AnalysisResults } from '@/components/analysis-results'
 
 const symptoms = [
@@ -150,7 +148,7 @@ export default function Home() {
 
         <Card className="p-6">
           <h2 className="text-2xl font-semibold mb-6">
-            What symptoms are you dealing with?
+            How are you feeling today?
           </h2>
 
           <div className="flex flex-wrap gap-2 mb-6">

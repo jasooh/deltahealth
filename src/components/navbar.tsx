@@ -1,8 +1,9 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
-import { Activity } from 'lucide-react'
 import Link from 'next/link'
+import Image from 'next/image'
+
 
 export function Navbar() {
   return (
@@ -10,7 +11,7 @@ export function Navbar() {
       <div className="max-w-2xl mx-auto px-4">
         <div className="flex h-16 items-center justify-between">
           <Link href="/" className="flex items-center space-x-2">
-            <Activity className="h-6 w-6 text-primary" />
+            <Image src="/logo.png" alt="Logo" width={40} height={40} />
             <span className="font-semibold text-xl">DeltaHealth</span>
           </Link>
 
