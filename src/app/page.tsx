@@ -9,8 +9,8 @@ import { useRouter } from "next/navigation";
 const spring_transition = {
     type: "spring",
     stiffness: 200, // Controls how tight the spring is
-    damping: 25,    // Controls the resistance of the spring
-    bounce: 0.5,    // Controls the amount of bounce (0 to 2 is common)
+    damping: 40,    // Controls the resistance of the spring
+    bounce: 0.3,    // Controls the amount of bounce (0 to 2 is common)
     duration: 0.8,  // Optional, spring usually ignores this unless combined
 }
 
@@ -26,7 +26,7 @@ export default function Home() {
     return (
         <>
             <main className="w-full min-h-screen p-4 md:px-28 md:py-16">
-                <section className="h-[25rem] flex flex-col gap-3 md:flex-row md:justify-between">
+                <section className="h-[35rem] md:h-[25rem] flex flex-col gap-3 md:flex-row md:justify-between">
                     <motion.div className="md:w-1/2" initial={{x: "-100%", filter: "blur(10px)"}}
                                 animate={{x: 0, filter: "blur(0px)"}} transition={spring_transition}>
                         <h1 className="text-3xl md:text-4xl font-bold leading-loose md:leading-loose text-center md:text-left">An
@@ -47,7 +47,7 @@ export default function Home() {
                                alt={"Man using phone"} height={200} width={200}/>
                     </motion.div>
                 </section>
-                <section ref={ref} className="h-[25rem] flex flex-col gap-3 md:flex-row-reverse md:justify-between">
+                <section ref={ref} className="h-[40rem] md:h-[25rem] flex flex-col gap-3 md:flex-row-reverse md:justify-between">
                     <motion.div className="md:w-1/2" initial={{x: "100%", filter: "blur(10px)", opacity: 0}}
                                 animate={isInView ? {x: 0, filter: "blur(0px)", opacity: 1} : {}}
                                 transition={spring_transition}>
@@ -71,7 +71,7 @@ export default function Home() {
                     </motion.div>
                 </section>
             </main>
-            <motion.section className="pt-10 h-[20rem] bg-black text-center space-y-8" initial={{ y: "100%" }} animate={isInView ? {y: 0} : {}} transition={spring_transition}>
+            <motion.section className="pt-10 h-[16rem] md:h-[20rem] bg-black text-center space-y-8" initial={{ y: "100%" }} animate={isInView ? {y: 0} : {}} transition={spring_transition}>
                 <div className="text-white font-medium text-2xl">
                     Stay healthy with DeltaHealth.
                 </div>
