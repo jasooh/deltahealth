@@ -12,7 +12,7 @@ import {
 } from '@/components/ui/alert-dialog'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
-import { Phone, AlertTriangle } from 'lucide-react'
+import { Phone, AlertTriangle, Star, Download, Save } from 'lucide-react'
 import { useState, useEffect } from 'react'
 import {
   Dialog,
@@ -22,6 +22,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from './ui/dialog'
+import { SavedResult } from '@/types/emergency'
 
 export interface AnalysisResult {
   probable_medical_conditions: string[]
@@ -35,9 +36,10 @@ export interface AnalysisResult {
 
 interface AnalysisResultsProps {
   data: AnalysisResult
+  showDialog: boolean
 }
 
-export function AnalysisResults({ data }: AnalysisResultsProps) {
+export function AnalysisResults({ data, showDialog }: AnalysisResultsProps) {
   const [showEmergencyDialog, setShowEmergencyDialog] = useState(false)
   const [previousUrgency, setPreviousUrgency] = useState<string | null>(null)
 
@@ -47,9 +49,26 @@ export function AnalysisResults({ data }: AnalysisResultsProps) {
       (data.urgency === 'High' || data.urgency === 'Medium') &&
       data.urgency !== previousUrgency
     ) {
-      setShowEmergencyDialog(true)
+      setShowEmergencyDialog(showDialog)
     }
   }, [data.urgency, previousUrgency])
+
+  const saveResult = () => {
+    if (data) {
+      const savedResults = JSON.parse(
+        localStorage.getItem('savedResults') || '[]'
+      ) as SavedResult[]
+
+      const newSavedResult: SavedResult = {
+        ...data,
+        id: Date.now().toString(),
+        timestamp: Date.now(),
+      }
+      savedResults.push(newSavedResult)
+      localStorage.setItem('savedResults', JSON.stringify(savedResults))
+      alert('Result saved successfully!')
+    }
+  }
 
   const getUrgencyStyles = () => {
     switch (data.urgency) {
@@ -78,9 +97,13 @@ export function AnalysisResults({ data }: AnalysisResultsProps) {
   return (
     <>
       <Card className={`p-6 mt-6 ${getUrgencyStyles()}`}>
-        <h2 className="text-xl font-semibold mb-4">
+        <h2 className="text-xl font-semibold mb-4 flex">
           Probable Medical Condition(s):{' '}
           {data.probable_medical_conditions.join(', ')}
+          <Button variant="outline" size="sm" onClick={saveResult}>
+            <Save className="w-4 h-4 mr-2" />
+            Save Result
+          </Button>
         </h2>
 
         <div className="space-y-6">

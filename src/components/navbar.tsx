@@ -36,9 +36,9 @@ import { Activity, Menu, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
 const navItems = [
-  { name: 'Home', href: '/' },
+  // { name: 'Home', href: '/' },
   { name: 'Help (Emergency Contacts)', href: '/help' },
-  { name: 'Analyzer', href: '/analyzer' },
+  { name: 'Saved Results', href: '/saved' },
 ]
 
 export function Navbar() {

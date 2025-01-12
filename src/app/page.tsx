@@ -9,6 +9,7 @@ import { useState } from 'react'
 import { Toggle } from '@/components/ui/toggle'
 import EmergencyAnalyzer from '@/components/EmergencyAnalyzer'
 import { AnalysisResults } from '@/components/analysis-results'
+import { SavedResults } from '@/components/SavedResults'
 
 const symptoms = [
   'Fever',
@@ -197,7 +198,10 @@ export default function Home() {
             {isLoading ? 'Analyzing...' : 'Analyze'}
           </Button>
         </Card>
-        {analysisResult && <AnalysisResults data={analysisResult} />}
+        {analysisResult && (
+          <AnalysisResults data={analysisResult} showDialog={true} />
+        )}
+        <SavedResults />
       </div>
     </main>
   )
