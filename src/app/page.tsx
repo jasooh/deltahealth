@@ -73,7 +73,7 @@ export default function Home() {
             </main>
             <motion.section className="pt-10 h-[20rem] bg-black text-center space-y-8" initial={{ y: "100%" }} animate={isInView ? {y: 0} : {}} transition={spring_transition}>
                 <div className="text-white font-medium text-2xl">
-                    Stay healthy with DeltaCare.
+                    Stay healthy with DeltaHealth.
                 </div>
                 <button onClick={handleClick} className="p-3 text-white rounded-xl border border-white hover:bg-white hover:text-black duration-200">
                     Try now
