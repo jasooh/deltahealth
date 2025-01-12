@@ -7,6 +7,8 @@ import { Textarea } from '@/components/ui/textarea'
 import { Mic } from 'lucide-react'
 import { useState } from 'react'
 import { Toggle } from '@/components/ui/toggle'
+import EmergencyAnalyzer from '@/components/EmergencyAnalyzer'
+import { AnalysisResults } from '@/components/analysis-results'
 
 const symptoms = [
   'Fever',
@@ -25,8 +27,12 @@ let recognition: any = null
 
 export default function Home() {
   const [selectedSymptoms, setSelectedSymptoms] = useState<string[]>([])
-  const [description, setDescription] = useState('')
+  const [description, setDescription] = useState(
+    'Im having cold, cough and fever with a running nose.'
+  )
   const [isListening, setIsListening] = useState(false)
+  const [analysisResult, setAnalysisResult] = useState<any>(null)
+  const [isLoading, setIsLoading] = useState(false)
 
   const toggleSymptom = (symptom: string) => {
     setSelectedSymptoms((prev) =>
@@ -75,49 +81,73 @@ export default function Home() {
     }
   }
 
-  // const handleVoiceInput = () => {
-  //   if ('webkitSpeechRecognition' in window) {
-  //     const recognition = new (window as any).webkitSpeechRecognition()
-  //     recognition.continuous = true
-  //     recognition.interimResults = true
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setIsLoading(true)
 
-  //     recognition.onstart = () => {
-  //       setIsListening(true)
-  //     }
+    const prompt = `Symptoms: ${selectedSymptoms.join(
+      ', '
+    )}. Description: ${description}`
+    console.log(prompt) // For testing the format
 
-  //     recognition.onresult = (event: any) => {
-  //       const transcript = Array.from(event.results)
-  //         .map((result: any) => result[0])
-  //         .map((result) => result.transcript)
-  //         .join('')
-  //       setDescription(transcript)
-  //     }
+    try {
+      const response = await fetch('/api/cohere', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ prompt }),
+      })
 
-  //     recognition.onend = () => {
-  //       setIsListening(false)
-  //     }
+      if (!response.ok) {
+        throw new Error('Failed to fetch')
+      }
 
-  //     if (isListening) {
-  //       recognition.stop()
-  //     } else {
-  //       recognition.start()
-  //     }
-  //   } else {
-  //     alert('Speech recognition is not supported in your browser.')
-  //   }
-  // }
+      const data = await response.json()
+      setAnalysisResult(data)
+    } catch (error) {
+      console.error('Error:', error)
+    } finally {
+      setIsLoading(false)
+    }
 
-  const handleSubmit = async () => {
-    // TODO: Implement Gemini API integration
-    console.log({
-      symptoms: selectedSymptoms,
-      description,
-    })
+    // const mockResponse = {
+    //   probable_medical_conditions: ['Broken arm', 'Severe Pain'],
+    //   urgency: 'High',
+    //   action: [
+    //     'Call your doctor to seek medical care.',
+    //     "If you have a large amount of swelling or mild deformity of the arm, significant pain that is not relieved by ice and home pain medications, or pain in one specific part of the arm when it is pressed, your doctor may advise you to go directly to a hospital's emergency department.",
+    //     'If you have a visible bone sticking out through the skin, heavy bleeding from an open wound, complete lack of movement or sensation of part of the arm, obvious deformity that looks drastically different from the usual appearance, or loss of consciousness, go directly to the hospital for emergency care.',
+    //     'If you have a loud cracking or snap, raise the injured arm above the level of your heart to slow bleeding and reduce swelling. If a broken bone sticks out from the skin (open fracture), do not try to push it back in.',
+    //   ],
+    //   what_to_avoid: [],
+    //   common_symptoms: [
+    //     'Large amount of pain',
+    //     'Increased pain when moving the arm',
+    //     'Warmth, bruising, or redness',
+    //     'Difficulty using or moving the arm normally',
+    //     'Nausea',
+    //   ],
+    //   precautions: [
+    //     'Do not try to push a broken bone back in if it sticks out from the skin.',
+    //   ],
+    //   relevant_resources: [
+    //     'https://www.webmd.com/a-to-z-guides/broken-arm',
+    //     'https://www.childrenshospital.org/conditions/broken-arm',
+    //     'https://fortworthhandcenter.com/surgery/5-signs-broken-arm/',
+    //     'https://www.cedars-sinai.org/health-library/diseases-and-conditions/b/broken-fractured-arm-or-shoulder.html',
+    //   ],
+    // }
   }
 
   return (
     <main className="min-h-screen bg-gray-50">
       <div className="max-w-2xl mx-auto px-4 py-8">
+        <h1 className="text-xl text-center font-mono font-bold mb-8">
+          Emergency Situation Analyzer
+        </h1>
+        {/* <EmergencyAnalyzer /> */}
+
         <Card className="p-6">
           <h2 className="text-2xl font-semibold mb-6">
             What symptoms are you dealing with?
@@ -161,11 +191,15 @@ export default function Home() {
             className="w-full mt-4"
             size="lg"
             onClick={handleSubmit}
-            disabled={selectedSymptoms.length === 0 && !description.trim()}
+            disabled={
+              (selectedSymptoms.length === 0 && !description.trim()) ||
+              isLoading
+            }
           >
-            Get Analysis
+            {isLoading ? 'Analyzing...' : 'Analyze'}
           </Button>
         </Card>
+        {analysisResult && <AnalysisResults data={analysisResult} />}
       </div>
     </main>
   )
